@@ -1,0 +1,33 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:Eas-Eat/Backend.git",
+  "author": "Dylan DE SOUSA <dds1991@hotmail.fr>",
+  "license": "MIT",
+  "scripts": {
+    "test:static": "tsc",
+    "test:unit": "yarn jest --config=.jestrc.js",
+    "test": "yarn test:static && yarn test:unit",
+    "clean": "yarn rimraf .dist",
+    "build": "yarn clean && yarn babel src/ --out-dir .dist/ --extensions \".ts,.tsx\" --source-maps inline --quiet --copy-files",
+    "dev": "yarn nodemon"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/node": "^7.8.7",
+    "@babel/plugin-transform-runtime": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-typescript": "^7.9.0",
+    "@types/jest": "^25.2.1",
+    "@types/node": "^13.13.0",
+    "@types/node-mailjet": "^3.3.3",
+    "jest": "^25.4.0",
+    "nodemon": "^2.0.3"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "node-mailjet": "^3.3.1"
+  }
+}

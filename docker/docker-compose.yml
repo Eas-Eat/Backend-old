@@ -1,0 +1,10 @@
+version: '3.7'
+services:        
+    backend:
+        build:
+            dockerfile: ./docker/Dockerfile
+            context: ../
+        image: easeat/backend
+        container_name: easeat-backend
+        ports:
+            - 80:80

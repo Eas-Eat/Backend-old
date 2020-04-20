@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+      "skipLibCheck": true,
+      "target": "esnext",
+      "moduleResolution": "node",
+      "module": "commonjs",
+      "lib": ["esnext", "dom"],
+      "allowJs": false,
+      "resolveJsonModule": true,
+      "noEmit": true,
+      "strict": true,
+      "esModuleInterop": false,
+      "allowSyntheticDefaultImports": true,
+      "outDir": ".dist"
+    },
+    "include": [
+      "libs",
+      "src",
+      "tests",
+      "types.d.ts",
+    ],
+    "exclude": [
+      ".jestrc.js",
+      "babel.config.js",
+    ]
+  }

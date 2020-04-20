@@ -1,0 +1,24 @@
+name: Unit Tests 
+
+on: [push]
+
+jobs:
+  test:
+    name: Runing tests with yarn
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.13.x
+      - name: Define NodeJS env variables
+        uses: allenevans/set-env@v1.1.0
+        with:
+          MJ_APIKEY_PUBLIC: ${{ secrets.MJ_APIKEY_PUBLIC }}
+          MJ_APIKEY_PRIVATE: ${{ secrets.MJ_APIKEY_PRIVATE }}
+      - name: Yarn install
+        run: yarn
+      - name: Yarn generate
+        run: yarn generate
+      - name: Yarn test
+        run: yarn test
