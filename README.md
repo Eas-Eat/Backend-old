@@ -9,6 +9,6 @@ Backend of Eas Eat.
 
 ## <a name='credits'>Credits</a>
  - Antoine Nivoy
- - Adrien Maçon
+ - Adrien Masson
  - Maxime Gouénard
  - Dylan De Sousa
