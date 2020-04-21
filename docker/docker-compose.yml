@@ -1,5 +1,5 @@
 version: '3.7'
-services:        
+services:
     backend:
         build:
             dockerfile: ./docker/Dockerfile
