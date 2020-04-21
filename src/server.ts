@@ -23,6 +23,8 @@ const resolvers = {
 export const server = new ApolloServer({
   typeDefs,
   resolvers,
+  introspection: true,
+  playground: true,
   context: ({ req }): Context => {
     const token = req?.headers?.authorization || ''
 
