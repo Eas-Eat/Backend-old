@@ -1,5 +1,17 @@
 version: '3.7'
 services:
+    database:
+        image: postgres
+        container_name: easeat-database
+        environment:
+          - POSTGRES_DB=easeat
+          - POSTGRES_USER=postgres
+          - POSTGRES_PASSWORD=admin
+        volumes:
+          - ./database:/database
+        ports:
+        - 5432:5432
+
     backend:
         build:
             dockerfile: ./docker/Dockerfile
@@ -10,3 +22,7 @@ services:
             - ../.env 
         ports:
             - 80:80
+        links:
+            - database:database
+        depends_on:
+            - database

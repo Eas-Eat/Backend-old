@@ -1,8 +1,10 @@
 import { ApolloServer, gql } from 'apollo-server'
+import { PrismaClient } from '@prisma/client'
 import dotenv from 'dotenv'
 dotenv.config()
 
 interface Context {
+  prisma: PrismaClient
   token: string
 }
 
@@ -28,7 +30,10 @@ export const server = new ApolloServer({
   context: ({ req }): Context => {
     const token = req?.headers?.authorization || ''
 
-    return { token }
+    return {
+      prisma: new PrismaClient(),
+      token,
+    }
   },
 })
 
