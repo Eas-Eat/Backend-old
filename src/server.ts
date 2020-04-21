@@ -1,33 +1,16 @@
-import { ApolloServer, gql } from 'apollo-server'
+import { ApolloServer } from 'apollo-server'
 import { PrismaClient } from '@prisma/client'
 import dotenv from 'dotenv'
+import schema from './schema'
 dotenv.config()
-
-interface Context {
-  prisma: PrismaClient
-  token: string
-}
 
 const PORT = process.env.PORT
 
-const typeDefs = gql`
-  type Query {
-    hello: String
-  }
-`
-
-const resolvers = {
-  Query: {
-    hello: (): string => 'Hello',
-  },
-}
-
 export const server = new ApolloServer({
-  typeDefs,
-  resolvers,
+  schema,
   introspection: true,
   playground: true,
-  context: ({ req }): Context => {
+  context: ({ req }): GraphQlContext => {
     const token = req?.headers?.authorization || ''
 
     return {

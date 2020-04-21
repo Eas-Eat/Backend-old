@@ -10,6 +10,9 @@
     "test:static": "tsc",
     "test:unit": "yarn jest --config=.jestrc.js",
     "test": "yarn test:static && yarn test:unit",
+    "generate:prisma": "yarn run prisma generate",
+    "generate:nexus": "babel-node --extensions \".ts\" src/schema",
+    "db:migrate": "yarn prisma migrate up --experimental",
     "clean": "yarn rimraf .dist",
     "lint": "eslint \"src/**/*.ts\" --fix",
     "format": "yarn prettier --write \"**/*.ts\" --loglevel silent",
@@ -40,9 +43,11 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.9.2",
+    "@nexus/schema": "^0.13.1",
     "@prisma/client": "^2.0.0-beta.2",
     "apollo-server": "^2.12.0",
     "dotenv": "^8.2.0",
+    "nexus-prisma": "^0.12.0",
     "node-mailjet": "^3.3.1"
   }
 }
