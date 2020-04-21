@@ -10,5 +10,6 @@ module.exports = {
     extends: ['plugin:@typescript-eslint/recommended'],
     rules: {
       '@typescript-eslint/no-explicit-any': 2,
+      '@typescript-eslint/semi': 0,
     }
   }
