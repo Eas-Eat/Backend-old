@@ -18,6 +18,7 @@
       "src",
       "tests",
       "types.d.ts",
+      "__generated/nexus-typegen.d.ts",
     ],
     "exclude": [
       ".jestrc.js",
