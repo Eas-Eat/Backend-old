@@ -10,6 +10,8 @@
     "test:unit": "yarn jest --config=.jestrc.js",
     "test": "yarn test:static && yarn test:unit",
     "clean": "yarn rimraf .dist",
+    "lint": "eslint \"src/**/*.ts\" --fix",
+    "format": "yarn prettier --write \"**/*.ts\" --loglevel silent",
     "build": "yarn clean && yarn babel src/ --out-dir .dist/ --extensions \".ts,.tsx\" --source-maps inline --quiet --copy-files",
     "dev": "yarn nodemon"
   },
@@ -23,9 +25,14 @@
     "@types/jest": "^25.2.1",
     "@types/node": "^13.13.0",
     "@types/node-mailjet": "^3.3.3",
+    "@typescript-eslint/eslint-plugin": "^2.29.0",
+    "@typescript-eslint/parser": "^2.29.0",
+    "eslint": "^6.8.0",
     "husky": "^4.2.5",
     "jest": "^25.4.0",
-    "nodemon": "^2.0.3"
+    "nodemon": "^2.0.3",
+    "prettier": "^2.0.4",
+    "typescript": "^3.8.3"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
