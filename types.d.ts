@@ -5,3 +5,8 @@ declare namespace NodeJS {
     PORT?: string
   }
 }
+
+interface GraphQlContext {
+  prisma: PrismaClient
+  token: string
+}
