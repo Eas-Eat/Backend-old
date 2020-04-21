@@ -13,7 +13,8 @@
     "lint": "eslint \"src/**/*.ts\" --fix",
     "format": "yarn prettier --write \"**/*.ts\" --loglevel silent",
     "build": "yarn clean && yarn babel src/ --out-dir .dist/ --extensions \".ts,.tsx\" --source-maps inline --quiet --copy-files",
-    "dev": "yarn nodemon"
+    "dev": "yarn nodemon",
+    "start": "node .dist/server.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
