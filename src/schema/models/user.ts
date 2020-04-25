@@ -1,4 +1,5 @@
 import { objectType, extendType, stringArg } from '@nexus/schema'
+import bcrypt from 'bcryptjs'
 
 export const User = objectType({
   name: 'User',
@@ -22,6 +23,7 @@ export const createUser = extendType({
       },
       resolve: async (_: unknown, { email, password, name }, ctx: GraphQlContext) => {
         try {
+          password = bcrypt.hashSync(password,8)
           return ctx.prisma.user.create({
             data: {
               email,

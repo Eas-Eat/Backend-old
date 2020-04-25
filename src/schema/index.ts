@@ -2,7 +2,7 @@ import { join } from 'path'
 import { makeSchema } from '@nexus/schema'
 import { nexusPrismaPlugin } from 'nexus-prisma'
 
-import * as User from './models/user'
+import * as User from './models/User'
 
 const generatedPath = join(process.cwd(), '__generated')
 
