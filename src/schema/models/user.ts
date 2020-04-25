@@ -37,3 +37,75 @@ export const createUser = extendType({
     })
   },
 })
+
+export const deleteUser = extendType({
+  type: 'Mutation',
+  definition(t): void {
+    t.field('deleteUser', {
+      type: 'User',
+      args: {
+        id: stringArg({ required: true }),
+      },
+      resolve: async (_: unknown, { id }, ctx: GraphQlContext) => {
+        try {
+          return ctx.prisma.user.delete({
+            where: { id },
+          })
+        } catch (error) {
+          console.log(error)
+          throw new Error(error.code)
+        }
+      },
+    })
+  },
+})
+
+export const updateUser = extendType({
+  type: 'Mutation',
+  definition(t): void {
+    t.field('updateUser', {
+      type: 'User',
+      args: {
+        id: stringArg({ required: true }),
+        name: stringArg({ required: false }),
+        email: stringArg({ required: false }),
+      },
+      resolve: async (_: unknown, { id, email, name }, ctx: GraphQlContext) => {
+        try {
+          return ctx.prisma.user.update({
+            data: {
+              email: email,
+              name: name,
+            },
+            where: { id },
+          })
+        } catch (error) {
+          console.log(error)
+          throw new Error(error.code)
+        }
+      },
+    })
+  },
+})
+
+export const getUserById = extendType({
+  type: 'Query',
+  definition(t): void {
+    t.field('getUserById', {
+      type: 'User',
+      args: {
+        id: stringArg({ required: true }),
+      },
+      resolve: async (_: unknown, { id }, ctx: GraphQlContext) => {
+        try {
+          return ctx.prisma.user.findOne({
+            where: { id },
+          })
+        } catch (error) {
+          console.log(error)
+          throw new Error(error.code)
+        }
+      },
+    })
+  },
+})

@@ -9,6 +9,7 @@
     "test:static": "tsc",
     "test:unit": "yarn jest --config=.jestrc.js",
     "test": "yarn test:static && yarn test:unit",
+    "generate": "yarn generate:prisma && yarn generate:nexus",
     "generate:prisma": "yarn run prisma generate",
     "generate:nexus": "babel-node --extensions \".ts\" src/schema",
     "db:migrate": "yarn prisma migrate up --experimental",
