@@ -13,7 +13,7 @@
     "generate:prisma": "yarn run prisma generate",
     "generate:nexus": "babel-node --extensions \".ts\" src/schema",
     "db:migrate": "yarn prisma migrate up --experimental",
-    "seed": "babel-node --extensions \".ts\" prisma/seeds.ts",
+    "db:seeds": "babel-node --extensions \".ts\" prisma/seeds.ts",
     "clean": "yarn rimraf .dist",
     "lint": "eslint \"src/**/*.ts\" --fix",
     "format": "yarn prettier --write \"**/*.ts\" --loglevel silent",
