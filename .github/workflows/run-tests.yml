@@ -14,6 +14,7 @@ jobs:
       - name: Define NodeJS env variables
         uses: allenevans/set-env@v1.1.0
         with:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
           MJ_APIKEY_PUBLIC: ${{ secrets.MJ_APIKEY_PUBLIC }}
           MJ_APIKEY_PRIVATE: ${{ secrets.MJ_APIKEY_PRIVATE }}
       - name: Yarn install
