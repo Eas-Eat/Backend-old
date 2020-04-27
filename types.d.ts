@@ -1,5 +1,6 @@
 declare namespace NodeJS {
   export interface ProcessEnv {
+    JWT_SECRET?: string
     MJ_APIKEY_PUBLIC?: string
     MJ_APIKEY_PRIVATE?: string
     PORT?: string
