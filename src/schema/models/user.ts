@@ -23,7 +23,8 @@ export const createUser = extendType({
       },
       resolve: async (_: unknown, { email, password, name }, ctx: GraphQlContext) => {
         try {
-          password = bcrypt.hashSync(password,8)
+          password = bcrypt.hashSync(password, 8)
+
           return ctx.prisma.user.create({
             data: {
               email,

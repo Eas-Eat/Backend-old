@@ -24,4 +24,4 @@ FROM base AS release
 COPY --from=dependencies /app/node_modules_production ./node_modules
 COPY --from=builder /app/.dist ./
 EXPOSE 80
-CMD ["node", "server.js"]
+CMD ["node", "main.js"]
