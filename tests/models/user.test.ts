@@ -9,7 +9,7 @@ describe('User Model', () => {
   let userId = ''
 
   beforeAll(async () => {
-    await server.listen()
+    await server.listen(3000)
   })
 
   afterAll(async () => {
