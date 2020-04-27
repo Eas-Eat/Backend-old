@@ -1,5 +1,6 @@
 import { objectType, extendType, stringArg } from '@nexus/schema'
-import bcrypt from 'bcryptjs'
+import { createPassword, verifyPassword } from '../../utils/password'
+import jwt from 'jsonwebtoken'
 
 export const User = objectType({
   name: 'User',
@@ -8,6 +9,42 @@ export const User = objectType({
     t.model.email()
     t.model.name()
     t.model.password()
+  },
+})
+
+export const login = extendType({
+  type: 'Mutation',
+  definition(t): void {
+    t.field('login', {
+      type: 'String',
+      args: {
+        email: stringArg({ required: true }),
+        password: stringArg({ required: true }),
+      },
+      resolve: async (_: unknown, { email, password }, ctx: GraphQlContext) => {
+        try {
+          const { prisma } = ctx
+
+          const user = await prisma.user.findOne({
+            where: { email },
+          })
+
+          if (!user) {
+            throw new Error('Invalid email or password')
+          }
+
+          const isMatchPassword = verifyPassword(password, user.password)
+          if (!isMatchPassword) {
+            throw new Error('Invalid email or password')
+          }
+
+          return jwt.sign(user, process.env.JWT_SECRET as string)
+        } catch (error) {
+          console.log(error)
+          throw new Error(error.code)
+        }
+      },
+    })
   },
 })
 
@@ -23,7 +60,7 @@ export const createUser = extendType({
       },
       resolve: async (_: unknown, { email, password, name }, ctx: GraphQlContext) => {
         try {
-          password = bcrypt.hashSync(password, 8)
+          password = await createPassword(password)
 
           return ctx.prisma.user.create({
             data: {
