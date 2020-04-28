@@ -23,9 +23,8 @@ export const login = extendType({
       },
       resolve: async (_: unknown, { email, password }, ctx: GraphQlContext) => {
         try {
-          const { prisma } = ctx
 
-          const user = await prisma.user.findOne({
+          const user = await ctx.prisma.user.findOne({
             where: { email },
           })
 
