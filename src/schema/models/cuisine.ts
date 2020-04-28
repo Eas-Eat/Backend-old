@@ -16,7 +16,7 @@ export const getAllCuisines = extendType({
       resolve: async (_: unknown, {}, ctx: GraphQlContext) => {
         try {
           const { prisma } = ctx
-          
+
           return await prisma.cuisine.findMany()
         } catch (error) {
           console.log(error)
