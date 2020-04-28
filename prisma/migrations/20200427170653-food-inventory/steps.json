@@ -1,0 +1,66 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateModel",
+      "model": "FoodInventory"
+    },
+    {
+      "tag": "CreateField",
+      "model": "FoodInventory",
+      "field": "userId",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "FoodInventory",
+          "field": "userId"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "FoodInventory",
+      "field": "foodId",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "FoodInventory",
+          "arguments": [
+            {
+              "name": "",
+              "value": "[foodId, userId]"
+            }
+          ]
+        },
+        "directive": "unique"
+      }
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "User",
+          "arguments": [
+            {
+              "name": "",
+              "value": "[id, email]"
+            }
+          ]
+        },
+        "directive": "index"
+      }
+    }
+  ]
+}
