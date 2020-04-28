@@ -1,4 +1,7 @@
-FROM node:13.13.0-alpine AS base
+FROM node:14.0.0-slim AS base
+RUN apt-get update && \
+    apt-get -qy install openssl
+
 WORKDIR /app
 COPY package.json ./
 
@@ -23,5 +26,7 @@ RUN yarn build
 FROM base AS release
 COPY --from=dependencies /app/node_modules_production ./node_modules
 COPY --from=builder /app/.dist ./
+COPY prisma ./prisma
+RUN yarn generate:prisma
 EXPOSE 80
 CMD ["node", "main.js"]
