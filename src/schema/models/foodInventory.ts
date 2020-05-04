@@ -9,6 +9,29 @@ export const FoodInventory = objectType({
   },
 })
 
+export const getIngredientsByUserId = extendType({
+  type: 'Query',
+  definition(t): void {
+    t.list.field('getIngredientsByUserId', {
+      type: 'FoodInventory',
+      args: {
+        userId: stringArg({ required: true }),
+      },
+      resolve: async (_: unknown, { userId }, { prisma }: GraphQlContext) => {
+        try {
+          return prisma.foodInventory.findMany({
+            where: {
+              userId,
+            },
+          })
+        } catch (error) {
+          throw new Error(error.code)
+        }
+      },
+    })
+  },
+})
+
 export const addFood = extendType({
   type: 'Mutation',
   definition(t): void {
