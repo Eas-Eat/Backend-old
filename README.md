@@ -47,10 +47,10 @@ type Query {
 type Mutation {
   login(email: String!, password: String!): String!
   register(email: String!, password: String!, name: String!): User!
-  deleteUser(id: String!): User!
-  updateUser(id: String!, name: String, email: String): User!
-  addFood(foodId: String!, userId: String!): Boolean!
-  removeFood(userId: String!, foodId: String!): Boolean!
-  cleanInventory(userId: String!): Boolean!
+  deleteUser(): User!
+  updateUser(name: String, email: String): User!
+  addFood(foodId: String!): Boolean!
+  removeFood(foodId: String!): Boolean!
+  cleanInventory(): Boolean!
 }
 ```
