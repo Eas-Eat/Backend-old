@@ -1,4 +1,5 @@
 import { objectType, extendType, stringArg } from '@nexus/schema'
+import {GraphQlContext} from '../../../types'
 
 export const FoodInventory = objectType({
   name: 'FoodInventory',
@@ -15,24 +16,24 @@ export const addFood = extendType({
       type: 'Boolean',
       args: {
         foodId: stringArg({ required: true }),
-        userId: stringArg({ required: true })
+        userId: stringArg({ required: true }),
       },
-      resolve: async(_: unknown, { foodId, userId }, ctx: GraphQlContext) => {
+      resolve: async (_: unknown, { foodId, userId  }, { prisma }: GraphQlContext) => {
         try {
-            const food = await ctx.prisma.foodInventory.create({
-              data: {
-                foodId,
-                userId,
-              }
-            })
-            return food !== null
-        } catch(error) {
-          console.log("Error: ", error)
+          const newFood = await prisma.foodInventory.create({
+            data: {
+              foodId,
+              userId,
+            },
+          })
+
+          return newFood !== null
+        } catch (error) {
           throw new Error(error.code)
         }
-      }
+      },
     })
-  }
+  },
 })
 
 export const removeFood = extendType({
@@ -44,17 +45,19 @@ export const removeFood = extendType({
         userId: stringArg({ required: true }),
         foodId: stringArg({ required: true })
       },
-      resolve: async(_:unknown, { userId, foodId }, ctx: GraphQlContext) => {
+      resolve: async(_: unknown, { userId, foodId }, { prisma }: GraphQlContext) => {
         try {
-            const food = await ctx.prisma.foodInventory.delete({
-              where: {
-                  userId,
-                  foodId
+          const food = await prisma.foodInventory.delete({
+            where: {
+              'userId_foodId': {
+                userId,
+                foodId,
               }
-            })
-            return food !== null
+            }
+          })
+
+          return food !== null
         } catch (error) {
-          console.log(error)
           throw new Error(error.code)
         }
       }
@@ -66,24 +69,23 @@ export const cleanInventory = extendType({
   type: 'Mutation',
   definition(t): void {
     t.field('cleanInventory', {
-      type:'Boolean',
+      type: 'Boolean',
       args: {
-        userId: stringArg({ required: true })
+        userId: stringArg({ required: true }),
       },
-      resolve: async(_:unknown, { userId }, ctx: GraphQlContext) => {
+      resolve: async (_: unknown, { userId }, { prisma }: GraphQlContext) => {
         try {
-            const food = await ctx.prisma.foodInventory.delete({
-              where: {
-                userId
-              }
-            })
+          await prisma.foodInventory.deleteMany({
+            where: {
+              userId,
+            }
+          })
 
-            return food !== null
+          return true
         } catch (error) {
-          console.log(error)
           throw new Error(error.code)
         }
-      }
+      },
     })
-  }
+  },
 })

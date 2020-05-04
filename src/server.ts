@@ -1,5 +1,6 @@
 import { ApolloServer } from 'apollo-server'
 import { PrismaClient } from '@prisma/client'
+import { GraphQlContext } from '../types'
 import schema from './schema'
 
 export const server = new ApolloServer({
