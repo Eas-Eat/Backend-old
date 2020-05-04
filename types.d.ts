@@ -1,5 +1,5 @@
 import { ApolloServer } from 'apollo-server'
-import {PrismaClient} from '@prisma/client'
+import { PrismaClient } from '@prisma/client'
 
 declare global {
   namespace NodeJS {
