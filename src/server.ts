@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken'
 import { GraphQlContext, User } from '../types'
 import schema from './schema'
 
-const isUser = (value: any): value is User => {
+const isUser = (value: object): value is User => {
   const { email, name } = value as User
 
   return email !== undefined && name !== undefined
@@ -23,7 +23,7 @@ export const server = new ApolloServer({
         const jwtSecret = process.env.JWT_SECRET as string
         const obj = jwt.verify(token, jwtSecret)
 
-        if (isUser(obj)) {
+        if (typeof obj === 'object' && isUser(obj)) {
           user = obj
         }
       } catch (error) {
