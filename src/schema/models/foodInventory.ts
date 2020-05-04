@@ -27,7 +27,6 @@ export const getIngredients = extendType({
             },
           })
         } catch (error) {
-          console.log(error)
           throw new Error(error.code)
         }
       },
