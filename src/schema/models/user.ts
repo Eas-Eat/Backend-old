@@ -84,13 +84,15 @@ export const deleteUser = extendType({
   definition(t): void {
     t.field('deleteUser', {
       type: 'User',
-      args: {
-        id: stringArg({ required: true }),
-      },
-      resolve: async (_: unknown, { id }, { prisma }: GraphQlContext) => {
+      args: {},
+      resolve: async (_: unknown, {}, { prisma, user }: GraphQlContext) => {
+        if (!user) {
+          throw new Error('Authentification required !')
+        }
+
         try {
           return prisma.user.delete({
-            where: { id },
+            where: { email: user.email },
           })
         } catch (error) {
           throw new Error(error.code)
@@ -110,14 +112,18 @@ export const updateUser = extendType({
         name: stringArg({ required: false }),
         email: stringArg({ required: false }),
       },
-      resolve: async (_: unknown, { id, email, name }, { prisma }: GraphQlContext) => {
+      resolve: async (_: unknown, { email, name }, { prisma, user }: GraphQlContext) => {
+        if (!user) {
+          throw new Error('Authentification required !')
+        }
+
         try {
           return prisma.user.update({
             data: {
               email: email,
               name: name,
             },
-            where: { id },
+            where: { email: user.email },
           })
         } catch (error) {
           throw new Error(error.code)

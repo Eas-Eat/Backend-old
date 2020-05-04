@@ -5,9 +5,9 @@ import { GraphQlContext, User } from '../types'
 import schema from './schema'
 
 const isUser = (value: object): value is User => {
-  const { email, name } = value as User
+  const { id, email, name } = value as User
 
-  return email !== undefined && name !== undefined
+  return email !== undefined && name !== undefined && id !== undefined
 }
 
 export const server = new ApolloServer({
