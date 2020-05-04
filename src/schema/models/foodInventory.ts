@@ -21,12 +21,13 @@ export const getIngredients = extendType({
         }
 
         try {
-          return prisma.foodInventory.findMany({
+          return await prisma.foodInventory.findMany({
             where: {
               userId: user.id,
             },
           })
         } catch (error) {
+          console.log(error)
           throw new Error(error.code)
         }
       },

@@ -39,6 +39,7 @@ export const login = extendType({
 
           return jwt.sign(
             {
+              id: user.id,
               email: user.email,
               name: user.name,
             },
@@ -108,7 +109,6 @@ export const updateUser = extendType({
     t.field('updateUser', {
       type: 'User',
       args: {
-        id: stringArg({ required: true }),
         name: stringArg({ required: false }),
         email: stringArg({ required: false }),
       },
