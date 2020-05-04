@@ -37,7 +37,13 @@ export const login = extendType({
             throw new Error('Invalid email or password')
           }
 
-          return jwt.sign(user, process.env.JWT_SECRET as string)
+          return jwt.sign(
+            {
+              email: user.email,
+              name: user.name,
+            },
+            process.env.JWT_SECRET as string,
+          )
         } catch (error) {
           throw new Error(error.code)
         }
