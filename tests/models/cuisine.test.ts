@@ -10,6 +10,33 @@ describe('Cuisine Model', () => {
       query: GET_ALL_CUISINES,
     })
 
-    expect(response?.data?.getAllCuisines).toMatchObject([])
+    expect(response?.data?.getAllCuisines).toMatchObject([
+      {
+        svgName: 'icon_chinese.svg',
+        type: 'chinese',
+      },
+      {
+        svgName: 'icon_japanese.svg',
+        type: 'japanese',
+      },
+      {
+        svgName: 'icon_french.svg',
+        type: 'french',
+      },
+      {
+        svgName: 'icon_italian.svg',
+        type: 'italian',
+      },
+      {
+        svgName: 'icon_british.svg',
+        type: 'british',
+      },
+      {
+        svgName: 'icon_america.svg',
+        type: 'america',
+      },
+    ])
   })
 })
+
+

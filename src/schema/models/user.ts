@@ -1,4 +1,5 @@
 import { objectType, extendType, stringArg } from '@nexus/schema'
+import { GraphQlContext } from '../../../types'
 import { createPassword, verifyPassword } from '../../utils/password'
 import jwt from 'jsonwebtoken'
 
@@ -21,9 +22,7 @@ export const login = extendType({
         email: stringArg({ required: true }),
         password: stringArg({ required: true }),
       },
-      resolve: async (...args) => {
-        const [, { email, password }, { prisma }] = args
-
+      resolve: async (_: unknown, { email, password }, { prisma }: GraphQlContext) => {
         try {
           const user = await prisma.user.findOne({
             where: { email },
@@ -57,9 +56,7 @@ export const register = extendType({
         password: stringArg({ required: true }),
         name: stringArg({ required: true }),
       },
-      resolve: async (...args) => {
-        const [, { email, password, name }, { prisma }] = args
-
+      resolve: async (_: unknown, { email, password, name }, { prisma }: GraphQlContext) => {
         try {
           return prisma.user.create({
             data: {
@@ -84,9 +81,7 @@ export const deleteUser = extendType({
       args: {
         id: stringArg({ required: true }),
       },
-      resolve: async (...args) => {
-        const [, { id }, { prisma }] = args
-
+      resolve: async (_: unknown, { id }, { prisma }: GraphQlContext) => {
         try {
           return prisma.user.delete({
             where: { id },
@@ -109,9 +104,7 @@ export const updateUser = extendType({
         name: stringArg({ required: false }),
         email: stringArg({ required: false }),
       },
-      resolve: async (...args) => {
-        const [, { id, email, name }, { prisma }] = args
-
+      resolve: async (_: unknown, { id, email, name }, { prisma }: GraphQlContext) => {
         try {
           return prisma.user.update({
             data: {

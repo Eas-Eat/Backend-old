@@ -42,8 +42,8 @@ export const removeFood = extendType({
     t.field('removeFood', {
       type: 'Boolean',
       args: {
-        userId: stringArg({ required: true }),
         foodId: stringArg({ required: true }),
+        userId: stringArg({ required: true }),
       },
       resolve: async (_: unknown, { userId, foodId }, { prisma }: GraphQlContext) => {
         try {
