@@ -1,4 +1,5 @@
 import { objectType, extendType, stringArg } from '@nexus/schema'
+import { GraphQlContext } from '../../../types'
 import { createPassword, verifyPassword } from '../../utils/password'
 import jwt from 'jsonwebtoken'
 
@@ -21,9 +22,9 @@ export const login = extendType({
         email: stringArg({ required: true }),
         password: stringArg({ required: true }),
       },
-      resolve: async (_: unknown, { email, password }, ctx: GraphQlContext) => {
+      resolve: async (_: unknown, { email, password }, { prisma }: GraphQlContext) => {
         try {
-          const user = await ctx.prisma.user.findOne({
+          const user = await prisma.user.findOne({
             where: { email },
           })
 
@@ -38,7 +39,6 @@ export const login = extendType({
 
           return jwt.sign(user, process.env.JWT_SECRET as string)
         } catch (error) {
-          console.log(error)
           throw new Error(error.code)
         }
       },
@@ -46,7 +46,7 @@ export const login = extendType({
   },
 })
 
-export const createUser = extendType({
+export const register = extendType({
   type: 'Mutation',
   definition(t): void {
     t.field('register', {
@@ -56,19 +56,16 @@ export const createUser = extendType({
         password: stringArg({ required: true }),
         name: stringArg({ required: true }),
       },
-      resolve: async (_: unknown, { email, password, name }, ctx: GraphQlContext) => {
+      resolve: async (_: unknown, { email, password, name }, { prisma }: GraphQlContext) => {
         try {
-          password = await createPassword(password)
-
-          return ctx.prisma.user.create({
+          return prisma.user.create({
             data: {
-              email,
-              password,
               name,
+              email,
+              password: await createPassword(password),
             },
           })
         } catch (error) {
-          console.log(error)
           throw new Error(error.code)
         }
       },
@@ -84,13 +81,12 @@ export const deleteUser = extendType({
       args: {
         id: stringArg({ required: true }),
       },
-      resolve: async (_: unknown, { id }, ctx: GraphQlContext) => {
+      resolve: async (_: unknown, { id }, { prisma }: GraphQlContext) => {
         try {
-          return ctx.prisma.user.delete({
+          return prisma.user.delete({
             where: { id },
           })
         } catch (error) {
-          console.log(error)
           throw new Error(error.code)
         }
       },
@@ -108,9 +104,9 @@ export const updateUser = extendType({
         name: stringArg({ required: false }),
         email: stringArg({ required: false }),
       },
-      resolve: async (_: unknown, { id, email, name }, ctx: GraphQlContext) => {
+      resolve: async (_: unknown, { id, email, name }, { prisma }: GraphQlContext) => {
         try {
-          return ctx.prisma.user.update({
+          return prisma.user.update({
             data: {
               email: email,
               name: name,
@@ -118,7 +114,6 @@ export const updateUser = extendType({
             where: { id },
           })
         } catch (error) {
-          console.log(error)
           throw new Error(error.code)
         }
       },
@@ -134,13 +129,14 @@ export const getUserById = extendType({
       args: {
         id: stringArg({ required: true }),
       },
-      resolve: async (_: unknown, { id }, ctx: GraphQlContext) => {
+      resolve: async (...args) => {
+        const [, { id }, { prisma }] = args
+
         try {
-          return ctx.prisma.user.findOne({
+          return prisma.user.findOne({
             where: { id },
           })
         } catch (error) {
-          console.log(error)
           throw new Error(error.code)
         }
       },

@@ -19,6 +19,8 @@ jobs:
           MJ_APIKEY_PRIVATE: ${{ secrets.MJ_APIKEY_PRIVATE }}
       - name: Yarn install
         run: yarn
+      - name: Yarn db:seeds
+        run: yarn
       - name: Yarn generate:nexus
         run: yarn generate:nexus
       - name: Yarn test

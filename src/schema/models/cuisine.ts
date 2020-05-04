@@ -1,4 +1,5 @@
 import { objectType, extendType } from '@nexus/schema'
+import { GraphQlContext } from '../../../types'
 
 export const Cuisine = objectType({
   name: 'Cuisine',
@@ -13,13 +14,10 @@ export const getAllCuisines = extendType({
   definition(t): void {
     t.list.field('getAllCuisines', {
       type: 'Cuisine',
-      resolve: async (_: unknown, {}, ctx: GraphQlContext) => {
+      resolve: async (_: unknown, {}, { prisma }: GraphQlContext) => {
         try {
-          const { prisma } = ctx
-
-          return await prisma.cuisine.findMany()
+          return prisma.cuisine.findMany()
         } catch (error) {
-          console.log(error)
           throw new Error(error.code)
         }
       },

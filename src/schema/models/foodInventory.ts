@@ -1,4 +1,5 @@
 import { objectType, extendType, stringArg } from '@nexus/schema'
+import { GraphQlContext } from '../../../types'
 
 export const FoodInventory = objectType({
   name: 'FoodInventory',
@@ -17,17 +18,17 @@ export const addFood = extendType({
         foodId: stringArg({ required: true }),
         userId: stringArg({ required: true }),
       },
-      resolve: async (_: unknown, { foodId, userId }, ctx: GraphQlContext) => {
+      resolve: async (_: unknown, { foodId, userId }, { prisma }: GraphQlContext) => {
         try {
-          const food = await ctx.prisma.foodInventory.create({
+          const newFood = await prisma.foodInventory.create({
             data: {
               foodId,
               userId,
             },
           })
-          return food !== null
+
+          return newFood !== null
         } catch (error) {
-          console.log('Error: ', error)
           throw new Error(error.code)
         }
       },
@@ -41,20 +42,23 @@ export const removeFood = extendType({
     t.field('removeFood', {
       type: 'Boolean',
       args: {
-        userId: stringArg({ required: true }),
         foodId: stringArg({ required: true }),
+        userId: stringArg({ required: true }),
       },
-      resolve: async (_: unknown, { userId, foodId }, ctx: GraphQlContext) => {
+      resolve: async (_: unknown, { userId, foodId }, { prisma }: GraphQlContext) => {
         try {
-          const food = await ctx.prisma.foodInventory.delete({
+          const food = await prisma.foodInventory.delete({
             where: {
-              userId,
-              foodId,
+              /* eslint-disable @typescript-eslint/camelcase */
+              userId_foodId: {
+                userId,
+                foodId,
+              },
             },
           })
+
           return food !== null
         } catch (error) {
-          console.log(error)
           throw new Error(error.code)
         }
       },
@@ -70,17 +74,16 @@ export const cleanInventory = extendType({
       args: {
         userId: stringArg({ required: true }),
       },
-      resolve: async (_: unknown, { userId }, ctx: GraphQlContext) => {
+      resolve: async (_: unknown, { userId }, { prisma }: GraphQlContext) => {
         try {
-          const food = await ctx.prisma.foodInventory.delete({
+          await prisma.foodInventory.deleteMany({
             where: {
               userId,
             },
           })
 
-          return food !== null
+          return true
         } catch (error) {
-          console.log(error)
           throw new Error(error.code)
         }
       },
