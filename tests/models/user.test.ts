@@ -8,14 +8,6 @@ const { query, mutate } = createTestClient(server)
 describe('User Model', () => {
   let userId = ''
 
-  beforeAll(async () => {
-    await server.listen()
-  })
-
-  afterAll(async () => {
-    await server.stop()
-  })
-
   it('Should create an User', async () => {
     const response = await mutate({
       mutation: CREATE_USER,

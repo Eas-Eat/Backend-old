@@ -25,8 +25,10 @@ model Cuisine {
 }
 
 model FoodInventory {
-  userId   String @id
+  id       Int    @id @default(autoincrement())
+  userId   String
   foodId   String
 
-  @@unique([foodId, userId])
+  @@index([userId, foodId])
+  @@unique([userId, foodId])
 }
