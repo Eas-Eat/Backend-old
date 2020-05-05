@@ -6,7 +6,6 @@
   "author": "Dylan DE SOUSA <dds1991@hotmail.fr>",
   "license": "MIT",
   "scripts": {
-    "heroku-postbuild": "yarn db:seeds",
     "test:static": "tsc",
     "test:unit": "yarn jest --config=.jestrc.js",
     "test": "yarn test:static && yarn test:unit --forceExit",

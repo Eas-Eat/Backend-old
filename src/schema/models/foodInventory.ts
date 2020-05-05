@@ -9,19 +9,21 @@ export const FoodInventory = objectType({
   },
 })
 
-export const getIngredientsByUserId = extendType({
+export const getIngredients = extendType({
   type: 'Query',
   definition(t): void {
-    t.list.field('getIngredientsByUserId', {
+    t.list.field('getIngredients', {
       type: 'FoodInventory',
-      args: {
-        userId: stringArg({ required: true }),
-      },
-      resolve: async (_: unknown, { userId }, { prisma }: GraphQlContext) => {
+      args: {},
+      resolve: async (_: unknown, {}, { prisma, user }: GraphQlContext) => {
+        if (!user) {
+          throw new Error('Authentification required !')
+        }
+
         try {
-          return prisma.foodInventory.findMany({
+          return await prisma.foodInventory.findMany({
             where: {
-              userId,
+              userId: user.id,
             },
           })
         } catch (error) {
@@ -39,14 +41,17 @@ export const addFood = extendType({
       type: 'Boolean',
       args: {
         foodId: stringArg({ required: true }),
-        userId: stringArg({ required: true }),
       },
-      resolve: async (_: unknown, { foodId, userId }, { prisma }: GraphQlContext) => {
+      resolve: async (_: unknown, { foodId }, { prisma, user }: GraphQlContext) => {
+        if (!user) {
+          throw new Error('Authentification required !')
+        }
+
         try {
           const newFood = await prisma.foodInventory.create({
             data: {
               foodId,
-              userId,
+              userId: user.id,
             },
           })
 
@@ -66,15 +71,18 @@ export const removeFood = extendType({
       type: 'Boolean',
       args: {
         foodId: stringArg({ required: true }),
-        userId: stringArg({ required: true }),
       },
-      resolve: async (_: unknown, { userId, foodId }, { prisma }: GraphQlContext) => {
+      resolve: async (_: unknown, { foodId }, { prisma, user }: GraphQlContext) => {
+        if (!user) {
+          throw new Error('Authentification required !')
+        }
+
         try {
           const food = await prisma.foodInventory.delete({
             where: {
               /* eslint-disable @typescript-eslint/camelcase */
               userId_foodId: {
-                userId,
+                userId: user.id,
                 foodId,
               },
             },
@@ -94,14 +102,16 @@ export const cleanInventory = extendType({
   definition(t): void {
     t.field('cleanInventory', {
       type: 'Boolean',
-      args: {
-        userId: stringArg({ required: true }),
-      },
-      resolve: async (_: unknown, { userId }, { prisma }: GraphQlContext) => {
+      args: {},
+      resolve: async (_: unknown, {}, { prisma, user }: GraphQlContext) => {
+        if (!user) {
+          throw new Error('Authentification required !')
+        }
+
         try {
           await prisma.foodInventory.deleteMany({
             where: {
-              userId,
+              userId: user.id,
             },
           })
 

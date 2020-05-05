@@ -18,5 +18,11 @@ declare global {
 
 interface GraphQlContext {
   prisma: PrismaClient
-  token: string
+  user: User | null
+}
+
+interface User {
+  id: string
+  email: string
+  name: string
 }
