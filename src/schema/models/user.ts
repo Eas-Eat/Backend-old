@@ -1,7 +1,7 @@
 import { objectType, extendType, stringArg } from '@nexus/schema'
 import { GraphQlContext } from '../../../types'
 import { createPassword, verifyPassword } from '../../utils/password'
-import { sendEmailWithTemplate } from '../../../libs/Mailjet'
+import { sendEmailWithTemplate } from '../../libs/Mailjet'
 import jwt from 'jsonwebtoken'
 
 export const User = objectType({

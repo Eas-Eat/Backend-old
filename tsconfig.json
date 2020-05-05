@@ -14,14 +14,14 @@
       "outDir": ".dist"
     },
     "include": [
-      "libs",
+      "src/libs",
       "src",
       "tests",
       "types.d.ts",
-      "__generated/nexus-typegen.d.ts",
+      "__generated/nexus-typegen.d.ts"
     ],
     "exclude": [
       ".jestrc.js",
-      "babel.config.js",
+      "babel.config.js"
     ]
   }

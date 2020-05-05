@@ -1,7 +1,7 @@
 module.exports = {
     verbose: true,
     rootDir: '.',
-    roots: ['<rootDir>/src/', '<rootDir>/libs/', '<rootDir>/tests/'],
+    roots: ['<rootDir>/src/', '<rootDir>/tests/'],
     setupFiles:['dotenv/config'],
     globalSetup: './tests/jest.setup.ts',
     globalTeardown: './tests/jest.teardown.ts',
