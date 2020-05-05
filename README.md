@@ -42,6 +42,8 @@ Backend of Eas Eat.
 ```graphql
 type Query {
   getUserById(id: String!): User!
+  getAllCuisines: [Cuisine!]!
+  getIngredients: [FoodIventory!]!
 }
 
 type Mutation {
