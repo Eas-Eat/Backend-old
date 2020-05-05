@@ -1,6 +1,7 @@
 import { objectType, extendType, stringArg } from '@nexus/schema'
 import { GraphQlContext } from '../../../types'
 import { createPassword, verifyPassword } from '../../utils/password'
+import { sendEmailWithTemplate } from '../../../libs/Mailjet'
 import jwt from 'jsonwebtoken'
 
 export const User = objectType({
@@ -23,31 +24,33 @@ export const login = extendType({
         password: stringArg({ required: true }),
       },
       resolve: async (_: unknown, { email, password }, { prisma }: GraphQlContext) => {
+        let user
+
         try {
-          const user = await prisma.user.findOne({
+          user = await prisma.user.findOne({
             where: { email },
           })
-
-          if (!user) {
-            throw new Error('Invalid email or password')
-          }
-
-          const isMatchPassword = verifyPassword(password, user.password)
-          if (!isMatchPassword) {
-            throw new Error('Invalid email or password')
-          }
-
-          return jwt.sign(
-            {
-              id: user.id,
-              email: user.email,
-              name: user.name,
-            },
-            process.env.JWT_SECRET as string,
-          )
         } catch (error) {
           throw new Error(error.code)
         }
+
+        if (!user) {
+          throw new Error('Invalid email or password')
+        }
+
+        const isMatchPassword = await verifyPassword(password, user.password)
+        if (!isMatchPassword) {
+          throw new Error('Invalid email or password')
+        }
+
+        return jwt.sign(
+          {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+          },
+          process.env.JWT_SECRET as string,
+        )
       },
     })
   },
@@ -65,13 +68,17 @@ export const register = extendType({
       },
       resolve: async (_: unknown, { email, password, name }, { prisma }: GraphQlContext) => {
         try {
-          return prisma.user.create({
+          const newUser = await prisma.user.create({
             data: {
               name,
               email,
               password: await createPassword(password),
             },
           })
+
+          await sendEmailWithTemplate([{ Email: email }], 1394707)
+
+          return newUser
         } catch (error) {
           throw new Error(error.code)
         }
