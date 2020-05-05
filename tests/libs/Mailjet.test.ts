@@ -1,4 +1,4 @@
-import { sendEmailWithTemplate } from '../../libs/Mailjet'
+import { sendEmailWithTemplate } from '../../src/libs/Mailjet'
 
 describe('sendEmailWithTemplate(Recipients: Array<Recipient>, templateId: number): Promise<Email.Response>', () => {
   it('It should send an email to recipients', async () => {
